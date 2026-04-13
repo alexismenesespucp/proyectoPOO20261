@@ -37,7 +37,11 @@ namespace ProyectoPoo20261 {
 	private: System::Windows::Forms::Label^ label1;
 	protected:
 	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::TextBox^ txtBoxUsuario;
+	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::TextBox^ txtBoxPass;
+
+
 
 	private:
 		/// <summary>
@@ -54,13 +58,15 @@ namespace ProyectoPoo20261 {
 		{
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->txtBoxUsuario = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->txtBoxPass = (gcnew System::Windows::Forms::TextBox());
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(201, 247);
+			this->label1->Location = System::Drawing::Point(141, 247);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(112, 32);
 			this->label1->TabIndex = 0;
@@ -76,19 +82,38 @@ namespace ProyectoPoo20261 {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
-			// textBox1
+			// txtBoxUsuario
 			// 
-			this->textBox1->Location = System::Drawing::Point(431, 241);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(225, 38);
-			this->textBox1->TabIndex = 2;
+			this->txtBoxUsuario->Location = System::Drawing::Point(431, 241);
+			this->txtBoxUsuario->Name = L"txtBoxUsuario";
+			this->txtBoxUsuario->Size = System::Drawing::Size(225, 38);
+			this->txtBoxUsuario->TabIndex = 2;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(141, 363);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(161, 32);
+			this->label2->TabIndex = 3;
+			this->label2->Text = L"Contraseña";
+			// 
+			// txtBoxPass
+			// 
+			this->txtBoxPass->Location = System::Drawing::Point(431, 363);
+			this->txtBoxPass->Name = L"txtBoxPass";
+			this->txtBoxPass->Size = System::Drawing::Size(240, 38);
+			this->txtBoxPass->TabIndex = 4;
+			this->txtBoxPass->UseSystemPasswordChar = true;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1431, 769);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->txtBoxPass);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->txtBoxUsuario);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Name = L"MyForm";
@@ -99,7 +124,7 @@ namespace ProyectoPoo20261 {
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ usuario = this->textBox1->Text;
+		String^ usuario = this->txtBoxUsuario->Text;
 		Console::WriteLine("El usuario es: " + usuario);
 
 	}
