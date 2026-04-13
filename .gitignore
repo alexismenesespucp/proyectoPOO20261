@@ -1,0 +1,48 @@
+# --- Visual Studio Integration Files ---
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Build Outputs ---
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bin/
+obj/
+
+# --- Intermediate Build Files ---
+*.obj
+*.ilk
+*.pdb
+*.tlog
+*.lastbuildstate
+*.idb
+*.recipe
+*.iobj
+*.ipdb
+*.log
+
+# --- Precompiled Headers ---
+*.pch
+
+# --- IntelliSense & Analysis Databases ---
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+
+# --- MSBuild & Temporary Files ---
+ipch/
+*.aps
+*.ncb
+*.cache
+*.intermediate.manifest
+
+# --- Executables ---
+*.exe
+*.dll
+*.lib
