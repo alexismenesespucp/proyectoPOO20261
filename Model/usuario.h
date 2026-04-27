@@ -9,9 +9,8 @@ namespace Model {
 		String^ Nombre;
 		String^ Contrasena;
 		String^ veriticationToken;
-		Usuario(String^ nombre, String^ contrasena);
-		void setTokenVerification(String^ token);
-		bool autentificar();
+		Usuario(String^ nombre, String^ token);
+		bool autentificar(String^ contrasena);
 
 	};
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "mainForm.h"
+#include "CrearUsuario.h"
+
 namespace ProyectoPoo20261 {
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -10,6 +12,8 @@ namespace ProyectoPoo20261 {
 	using namespace System::Security::Cryptography;
 	using namespace System::Text;
 	using namespace Model;
+	using namespace Controller;
+
 	/// <summary>
 	/// Summary for login
 	/// </summary>
@@ -43,6 +47,10 @@ namespace ProyectoPoo20261 {
 	private: System::Windows::Forms::TextBox^ txtBoxPass;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ crearUsuariToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ salirToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ salirToolStripMenuItem1;
 
 
 
@@ -65,6 +73,11 @@ namespace ProyectoPoo20261 {
 			this->txtBoxPass = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->crearUsuariToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->salirToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->salirToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -114,6 +127,40 @@ namespace ProyectoPoo20261 {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Usuario";
 			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(40, 40);
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->crearUsuariToolStripMenuItem });
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(1431, 52);
+			this->menuStrip1->TabIndex = 5;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// crearUsuariToolStripMenuItem
+			// 
+			this->crearUsuariToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->salirToolStripMenuItem,
+					this->salirToolStripMenuItem1
+			});
+			this->crearUsuariToolStripMenuItem->Name = L"crearUsuariToolStripMenuItem";
+			this->crearUsuariToolStripMenuItem->Size = System::Drawing::Size(87, 48);
+			this->crearUsuariToolStripMenuItem->Text = L"File";
+			// 
+			// salirToolStripMenuItem
+			// 
+			this->salirToolStripMenuItem->Name = L"salirToolStripMenuItem";
+			this->salirToolStripMenuItem->Size = System::Drawing::Size(448, 54);
+			this->salirToolStripMenuItem->Text = L"Crear Usuario";
+			this->salirToolStripMenuItem->Click += gcnew System::EventHandler(this, &login::salirToolStripMenuItem_Click);
+			// 
+			// salirToolStripMenuItem1
+			// 
+			this->salirToolStripMenuItem1->Name = L"salirToolStripMenuItem1";
+			this->salirToolStripMenuItem1->Size = System::Drawing::Size(448, 54);
+			this->salirToolStripMenuItem1->Text = L"Salir";
+			// 
 			// login
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
@@ -125,9 +172,13 @@ namespace ProyectoPoo20261 {
 			this->Controls->Add(this->txtBoxUsuario);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
+			this->Controls->Add(this->menuStrip1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"login";
 			this->Text = L"Login";
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -136,29 +187,53 @@ namespace ProyectoPoo20261 {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ usuario = this->txtBoxUsuario->Text;
 		String^ password = this->txtBoxPass->Text;
+		
+		Usuario^ user = Controller::Operations::ReadUser(usuario);
 
-		Usuario^ user = gcnew Usuario(usuario, password);
-		user->setTokenVerification("c93ccd78b2076528346216b3b2f701e6");
+		if(user == nullptr) {
+			Windows::Forms::DialogResult result = MessageBox::Show("El usuario no existe. ¿Desea registrarse?", "Usuario no encontrado", MessageBoxButtons::YesNo, MessageBoxIcon::Question);
+			if(result == Windows::Forms::DialogResult::Yes) {
+				Console::WriteLine("Redirigiendo al formulario de registro...");
+				redireccionar_crear();
+			}
+			Console::WriteLine("El usuario no existe");
+			return;
+		}
 
-		//Console::WriteLine(GetMD5Hash("admin" + "1234"));	
-		if (user->autentificar())
+		if (user->autentificar(password))
 		{
 			this->Hide();
 			Console::WriteLine("El usuario y contraseña están correctos");
 			mainForm^ mainFormInstance = gcnew mainForm();
-			mainFormInstance->ShowDialog();
+			mainFormInstance->Show();
 		}
 		else
 		{
-			Console::WriteLine("El usuario o la contraseña están incorrectos ");
+			MessageBox::Show("La contraseña está incorrecta");
+			Console::WriteLine("La contraseña está incorrecta");
 		}
 
 	}
+
+    private: void redireccionar_crear() {
+		this->Hide();
+		CrearUsuario^ crearUsuarioInstance = gcnew CrearUsuario(this);
+		crearUsuarioInstance->Show();
+		Console::WriteLine("Redirigiendo al formulario de registro...");
+	}
+
 	private: System::Void MyForm_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e) {
 		if (e->KeyChar == (char)System::Windows::Forms::Keys::Enter) {
 			button1_Click(sender, e);
 			e->Handled = true;
 		}
+	}
+
+
+
+	private: System::Void salirToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		redireccionar_crear();
+		Console::WriteLine("Redirigiendo al formulario de registro...");
 	}
 };
 }

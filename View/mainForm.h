@@ -54,7 +54,7 @@ namespace ProyectoPoo20261 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(508, 442);
+			this->ClientSize = System::Drawing::Size(1094, 776);
 			this->Name = L"mainForm";
 			this->Text = L"mainForm";
 			this->ResumeLayout(false);
