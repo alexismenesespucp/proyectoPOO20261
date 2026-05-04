@@ -68,3 +68,51 @@ Object^ Persistance::persistance::LoadDataFromText(String^ filePath, Type^ tipo)
 	return result;
 
 }
+
+void Persistance::persistance::SaveDataToXML(String^ filePath, Object^ ObjectData) {
+	StreamWriter^ writer = nullptr;
+	try {
+		if(ObjectData != nullptr && ObjectData->GetType() == List<Usuario^>::typeid) {
+			List<Usuario^>^ users = (List<Usuario^>^)ObjectData;
+
+			writer = gcnew StreamWriter(filePath);
+			XmlSerializer^ serializer = gcnew XmlSerializer(List<Usuario^>::typeid);
+			serializer->Serialize(writer, users);
+		}
+
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error saving data to XML: " + ex->Message);
+	}
+	finally {
+		if (writer != nullptr) {
+			writer->Close();
+		}
+	}
+
+}
+
+Object^ Persistance::persistance::LoadDataFromXML(String^ filePath, Type^ tipo) {
+	StreamReader^ reader = nullptr;
+	Object^ result;
+	XmlSerializer^ serializer = nullptr;
+	try {
+		if (tipo == Usuario::typeid) {
+			reader = gcnew StreamReader(filePath);
+			serializer = gcnew XmlSerializer(List<Usuario^>::typeid);
+			result = serializer->Deserialize(reader);
+		}
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error loading data from XML: " + ex->Message);
+	}
+	finally {
+		if (reader != nullptr) {
+			reader->Close();
+		}
+	}
+
+	return result;
+
+}
+

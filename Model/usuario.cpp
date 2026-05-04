@@ -5,6 +5,12 @@
 using namespace System;
 using namespace Model;
 
+Model::Usuario::Usuario() {
+	this->Nombre = "";
+	this->Contrasena = "";
+	this->veriticationToken = "";
+}
+
 Model::Usuario::Usuario(String^ nombre, String^ token) {
 	this->Nombre = nombre;
 	this->veriticationToken = token;

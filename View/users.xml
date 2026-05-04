@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUsuario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Usuario>
+    <Nombre>admin</Nombre>
+    <veriticationToken>c93ccd78b2076528346216b3b2f701e6</veriticationToken>
+  </Usuario>
+  <Usuario>
+    <Nombre>Juan</Nombre>
+    <veriticationToken>fc576b28c50252b97e47940f561c7e45</veriticationToken>
+  </Usuario>
+</ArrayOfUsuario>

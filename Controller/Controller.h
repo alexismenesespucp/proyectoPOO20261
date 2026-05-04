@@ -5,6 +5,8 @@ using namespace System;
 using namespace System::Collections::Generic;
 
 #define UserFilePath "users.txt"
+#define UserXMLFilePath "users.xml"
+#define UserBinaryFilePath "users.bin"
 
 namespace Controller {
 	public ref class Operations
