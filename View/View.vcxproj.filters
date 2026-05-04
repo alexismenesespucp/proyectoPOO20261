@@ -24,6 +24,9 @@
     <ClCompile Include="CrearUsuario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="listarUsuarios.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="login.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CrearUsuario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="listarUsuarios.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

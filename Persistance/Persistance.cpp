@@ -116,3 +116,40 @@ Object^ Persistance::persistance::LoadDataFromXML(String^ filePath, Type^ tipo) 
 
 }
 
+void Persistance::persistance::SaveDataToBinary(String^ filePath, Object^ ObjectData) {
+	FileStream^ fileStream = nullptr;
+	BinaryFormatter^ formatter = nullptr;
+	try {
+		fileStream = gcnew FileStream(filePath, FileMode::Create, FileAccess::Write);
+		formatter = gcnew BinaryFormatter();
+		formatter->Serialize(fileStream, ObjectData);
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error saving data to binary: " + ex->Message);
+	}
+	finally {
+		if (fileStream != nullptr) {
+			fileStream->Close();
+		}
+	}
+}
+
+Object^ Persistance::persistance::LoadDataFromBinary(String^ filePath, Type^ tipo) {
+	FileStream^ fileStream = nullptr;
+	BinaryFormatter^ formatter = nullptr;
+	Object^ result;
+	try {
+		fileStream = gcnew FileStream(filePath, FileMode::Open, FileAccess::Read);
+		formatter = gcnew BinaryFormatter();
+		result = formatter->Deserialize(fileStream);
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error loading data from binary: " + ex->Message);
+	}
+	finally {
+		if (fileStream != nullptr) {
+			fileStream->Close();
+		}
+	}
+	return result;
+}

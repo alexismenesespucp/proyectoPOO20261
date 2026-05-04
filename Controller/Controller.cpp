@@ -7,19 +7,26 @@ void Controller::Operations::Initialize() {
 
 	//if (Persistance::persistance::exists(UserFilePath)) {
 	//	usuarios = (List<Usuario^> ^)Persistance::persistance::LoadDataFromText(UserFilePath, Usuario::typeid);
-	//	Persistance::persistance::SaveDataToXML(UserXMLFilePath, usuarios);
 	//} 
 	//else{
 	//	usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));		
 	//	Persistance::persistance::SaveDataToText(UserFilePath, usuarios);
 	//}
 
-	if (Persistance::persistance::exists(UserXMLFilePath)) {
-		usuarios = (List<Usuario^>^)Persistance::persistance::LoadDataFromXML(UserXMLFilePath, Usuario::typeid);
+	//if (Persistance::persistance::exists(UserXMLFilePath)) {
+	//	usuarios = (List<Usuario^>^)Persistance::persistance::LoadDataFromXML(UserXMLFilePath, Usuario::typeid);
+	//}
+	//else {
+	//	usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));
+	//	Persistance::persistance::SaveDataToXML(UserXMLFilePath, usuarios);
+	//}
+
+	if (Persistance::persistance::exists(UserBinaryFilePath)) {
+		usuarios = (List<Usuario^>^)Persistance::persistance::LoadDataFromBinary (UserBinaryFilePath, Usuario::typeid);
 	}
 	else {
 		usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));
-		Persistance::persistance::SaveDataToXML(UserXMLFilePath, usuarios);
+		Persistance::persistance::SaveDataToBinary(UserBinaryFilePath, usuarios);
 	}
 
 

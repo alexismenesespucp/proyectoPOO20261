@@ -1,6 +1,7 @@
 #pragma once
 #include "mainForm.h"
 #include "CrearUsuario.h"
+#include "listarUsuarios.h"
 
 namespace ProyectoPoo20261 {
 	using namespace System;
@@ -51,6 +52,7 @@ namespace ProyectoPoo20261 {
 	private: System::Windows::Forms::ToolStripMenuItem^ crearUsuariToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ salirToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ salirToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^ listarUsuariosToolStripMenuItem;
 
 
 
@@ -76,6 +78,7 @@ namespace ProyectoPoo20261 {
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->crearUsuariToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->salirToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->listarUsuariosToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->salirToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -140,9 +143,9 @@ namespace ProyectoPoo20261 {
 			// 
 			// crearUsuariToolStripMenuItem
 			// 
-			this->crearUsuariToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->crearUsuariToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->salirToolStripMenuItem,
-					this->salirToolStripMenuItem1
+					this->listarUsuariosToolStripMenuItem, this->salirToolStripMenuItem1
 			});
 			this->crearUsuariToolStripMenuItem->Name = L"crearUsuariToolStripMenuItem";
 			this->crearUsuariToolStripMenuItem->Size = System::Drawing::Size(87, 48);
@@ -154,6 +157,13 @@ namespace ProyectoPoo20261 {
 			this->salirToolStripMenuItem->Size = System::Drawing::Size(448, 54);
 			this->salirToolStripMenuItem->Text = L"Crear Usuario";
 			this->salirToolStripMenuItem->Click += gcnew System::EventHandler(this, &login::salirToolStripMenuItem_Click);
+			// 
+			// listarUsuariosToolStripMenuItem
+			// 
+			this->listarUsuariosToolStripMenuItem->Name = L"listarUsuariosToolStripMenuItem";
+			this->listarUsuariosToolStripMenuItem->Size = System::Drawing::Size(448, 54);
+			this->listarUsuariosToolStripMenuItem->Text = L"Listar Usuarios";
+			this->listarUsuariosToolStripMenuItem->Click += gcnew System::EventHandler(this, &login::listarUsuariosToolStripMenuItem_Click);
 			// 
 			// salirToolStripMenuItem1
 			// 
@@ -234,6 +244,12 @@ namespace ProyectoPoo20261 {
 	private: System::Void salirToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		redireccionar_crear();
 		Console::WriteLine("Redirigiendo al formulario de registro...");
+	}
+	private: System::Void listarUsuariosToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		listarUsuarios^ listarUsuariosInstance = gcnew listarUsuarios(this);
+		listarUsuariosInstance->Show();
+
 	}
 };
 }

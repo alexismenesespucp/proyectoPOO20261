@@ -126,11 +126,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrearUsuario.cpp" />
+    <ClCompile Include="listarUsuarios.cpp" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrearUsuario.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="listarUsuarios.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="login.h">
@@ -144,6 +148,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CrearUsuario.resx">
       <DependentUpon>CrearUsuario.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="listarUsuarios.resx">
+      <DependentUpon>listarUsuarios.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="login.resx">
       <DependentUpon>login.h</DependentUpon>
