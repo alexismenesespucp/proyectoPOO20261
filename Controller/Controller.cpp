@@ -1,10 +1,15 @@
 #include "pch.h"
-
 #include "Controller.h"
 
 void Controller::Operations::Initialize() {
 	//Console::WriteLine(GetMD5Hash("admin" + "1234"));	
-	usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));
+	if (Persistance::persistance::exists(UserFilePath)) {
+		usuarios = (List<Usuario^> ^)Persistance::persistance::LoadDataFromText(UserFilePath, Usuario::typeid);
+	}
+	else{
+		usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));		
+		Persistance::persistance::SaveDataToText(UserFilePath, usuarios);
+	}
 }
 
 Usuario^ Controller::Operations::ReadUser(String^ user) {
@@ -19,6 +24,7 @@ Usuario^ Controller::Operations::ReadUser(String^ user) {
 Usuario^ Controller::Operations::CreateUser(String^ username, String^ password) {
 	Usuario^ newUser = gcnew Usuario(username, Model::Utils::GetMD5Hash(username + password));
 	usuarios->Add(newUser);
+	Persistance::persistance::SaveDataToText(UserFilePath, usuarios);
 	return newUser;
 }
 
