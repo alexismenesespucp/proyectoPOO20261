@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Persistance.h"
-
+using namespace System::IO;
 
 bool Persistance::persistance::exists(String^ filePath) {
 	return File::Exists(filePath);

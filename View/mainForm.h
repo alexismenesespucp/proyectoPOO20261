@@ -54,12 +54,29 @@ namespace ProyectoPoo20261 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1094, 776);
+			this->ClientSize = System::Drawing::Size(1815, 1021);
 			this->Name = L"mainForm";
 			this->Text = L"mainForm";
+			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &mainForm::mainForm_Paint);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+	private: System::Void mainForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		Graphics^ g = e->Graphics;
+		Pen^ sinePen = gcnew Pen(Color::Blue, 2);
+		
+		float amplitude = 50;
+		float frequency = 0.1;
+		float offsetY = 150;
+
+		for (int x = 0; x < this->ClientSize.Width; x++) {
+			double y = offsetY + amplitude * Math::Sin(frequency * x);
+			g->DrawRectangle(sinePen, x, y, 1, 1);
+		}
+
+
+
+	}
 	};
 }
