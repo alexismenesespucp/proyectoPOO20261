@@ -65,14 +65,16 @@ namespace ProyectoPoo20261 {
 	private: System::Void mainForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		Graphics^ g = e->Graphics;
 		Pen^ sinePen = gcnew Pen(Color::Blue, 2);
-		
+		Pen^ sinePen2 = gcnew Pen(Color::Red, 2);
+
 		float amplitude = 50;
 		float frequency = 0.1;
 		float offsetY = 150;
-
 		for (int x = 0; x < this->ClientSize.Width; x++) {
 			double y = offsetY + amplitude * Math::Sin(frequency * x);
-			g->DrawRectangle(sinePen, x, y, 1, 1);
+			g->DrawEllipse(sinePen, x, y, 1, 1); // Punto para la onda
+			double y2 = offsetY + amplitude * Math::Sin(frequency * x + Math::PI / 2);
+			g->DrawEllipse(sinePen2, x, y2, 1, 1); // Punto para la onda
 		}
 
 
