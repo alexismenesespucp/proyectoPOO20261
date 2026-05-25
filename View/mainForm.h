@@ -20,6 +20,7 @@ namespace ProyectoPoo20261 {
 			InitializeComponent();
 			this->DoubleBuffered = true; // Evita el parpadeo en la animación
 			xPosition = 0;
+			timer1->Interval = 1000;
 			timer1->Enabled = true;
 			//
 			//TODO: Add the constructor code here
