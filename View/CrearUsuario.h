@@ -69,26 +69,29 @@ namespace ProyectoPoo20261 {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(105, 133);
+			this->label1->Location = System::Drawing::Point(39, 56);
+			this->label1->Margin = System::Windows::Forms::Padding(1, 0, 1, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(280, 80);
+			this->label1->Size = System::Drawing::Size(43, 13);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Usuario";
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(105, 235);
+			this->label2->Location = System::Drawing::Point(39, 99);
+			this->label2->Margin = System::Windows::Forms::Padding(1, 0, 1, 0);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(161, 32);
+			this->label2->Size = System::Drawing::Size(61, 13);
 			this->label2->TabIndex = 1;
 			this->label2->Text = L"Contraseña";
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(238, 311);
+			this->button1->Location = System::Drawing::Point(89, 130);
+			this->button1->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(166, 67);
+			this->button1->Size = System::Drawing::Size(62, 28);
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"Crear";
 			this->button1->UseVisualStyleBackColor = true;
@@ -96,29 +99,33 @@ namespace ProyectoPoo20261 {
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(334, 133);
+			this->textBox1->Location = System::Drawing::Point(125, 56);
+			this->textBox1->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(176, 38);
+			this->textBox1->Size = System::Drawing::Size(68, 20);
 			this->textBox1->TabIndex = 3;
 			// 
 			// textBox2
 			// 
-			this->textBox2->Location = System::Drawing::Point(330, 235);
+			this->textBox2->Location = System::Drawing::Point(124, 99);
+			this->textBox2->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(180, 38);
+			this->textBox2->Size = System::Drawing::Size(70, 20);
 			this->textBox2->TabIndex = 4;
+			this->textBox2->UseSystemPasswordChar = true;
 			// 
 			// CrearUsuario
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(765, 511);
+			this->ClientSize = System::Drawing::Size(287, 214);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->Name = L"CrearUsuario";
 			this->Text = L"CrearUsuario";
 			this->ResumeLayout(false);

@@ -21,14 +21,20 @@ void Controller::Operations::Initialize() {
 	//	Persistance::persistance::SaveDataToXML(UserXMLFilePath, usuarios);
 	//}
 
-	if (Persistance::persistance::exists(UserBinaryFilePath)) {
-		usuarios = (List<Usuario^>^)Persistance::persistance::LoadDataFromBinary (UserBinaryFilePath, Usuario::typeid);
+	//if (Persistance::persistance::exists(UserBinaryFilePath)) {
+	//	usuarios = (List<Usuario^>^)Persistance::persistance::LoadDataFromBinary (UserBinaryFilePath, Usuario::typeid);
+	//}
+	//else {
+	//	usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));
+	//	Persistance::persistance::SaveDataToBinary(UserBinaryFilePath, usuarios);
+	//}
+
+	if (Persistance::persistance::usersExistOnDatabase()) {
+		usuarios = Persistance::persistance::getUsersSQL();
 	}
 	else {
-		usuarios->Add(gcnew Usuario("admin", "c93ccd78b2076528346216b3b2f701e6"));
-		Persistance::persistance::SaveDataToBinary(UserBinaryFilePath, usuarios);
+		Persistance::persistance::addUserSQL("admin", "c93ccd78b2076528346216b3b2f701e6");
 	}
-
 
 }
 
@@ -44,7 +50,9 @@ Usuario^ Controller::Operations::ReadUser(String^ user) {
 Usuario^ Controller::Operations::CreateUser(String^ username, String^ password) {
 	Usuario^ newUser = gcnew Usuario(username, Model::Utils::GetMD5Hash(username + password));
 	usuarios->Add(newUser);
-	Persistance::persistance::SaveDataToText(UserFilePath, usuarios);
+	//Persistance::persistance::SaveDataToText(UserFilePath, usuarios);
+	int id_usuario = Persistance::persistance::addUserSQL(username, Model::Utils::GetMD5Hash(username + password));
+	Console::WriteLine("El id del usuario es: {0}", id_usuario);
 	return newUser;
 }
 

@@ -5,12 +5,14 @@ using namespace System::Collections::Generic;
 using namespace System::Xml::Serialization;
 using namespace System::Runtime::Serialization::Formatters::Binary;
 using namespace System::IO;
+using namespace System::Data::SqlClient;
 
 namespace Persistance {
 	public ref class persistance
 	{
 	public:
 		static bool exists(String^ filePath);
+
 
 		static void SaveDataToText(String^ filePath, Object^ ObjectData);
 		static Object^ LoadDataFromText(String^ filePath,Type^ tipo);
@@ -21,6 +23,11 @@ namespace Persistance {
 		static void SaveDataToBinary(String^ filePath, Object^ ObjectData);
 		static Object^ LoadDataFromBinary(String^ filePath, Type^ tipo);
 
+		static SqlConnection^ GetConnection();
+
+		static int addUserSQL(String^ username, String^ password);
+		static bool usersExistOnDatabase();
+		static List<Usuario^>^ getUsersSQL();
 
 	};
 }

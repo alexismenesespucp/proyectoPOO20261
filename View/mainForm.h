@@ -19,9 +19,11 @@ namespace ProyectoPoo20261 {
 		{
 			InitializeComponent();
 			this->DoubleBuffered = true; // Evita el parpadeo en la animación
-			xPosition = 0;
-			timer1->Interval = 1000;
+			xPositionRectangle = 25;
+			xPositionCircle = 0;
+			timer1->Interval = 100;
 			timer1->Enabled = true;
+			goingFast = false;
 			//
 			//TODO: Add the constructor code here
 			//
@@ -46,7 +48,10 @@ namespace ProyectoPoo20261 {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		int xPosition;
+		int xPositionRectangle;
+		bool goingFast;
+	private: System::Windows::Forms::Timer^ timer2;
+		   int xPositionCircle;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -57,10 +62,17 @@ namespace ProyectoPoo20261 {
 		{
 			this->components = (gcnew System::ComponentModel::Container());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->timer2 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
-
+			// 
+			// timer1
+			// 
 			this->timer1->Tick += gcnew System::EventHandler(this, &mainForm::timer1_Tick);
-
+			// 
+			// timer2
+			// 
+			this->timer2->Enabled = true;
+			this->timer2->Tick += gcnew System::EventHandler(this, &mainForm::timer2_Tick);
 			// 
 			// mainForm
 			// 
@@ -68,7 +80,7 @@ namespace ProyectoPoo20261 {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1815, 1021);
 			this->Name = L"mainForm";
-			this->Text = L"mainForm";
+			this->Text = L"°°";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &mainForm::mainForm_Paint);
 			this->ResumeLayout(false);
 
@@ -78,6 +90,7 @@ namespace ProyectoPoo20261 {
 		Graphics^ g = e->Graphics;
 		Pen^ wavePen = gcnew Pen(Color::Blue, 2); // Pen para la onda
 		SolidBrush^ rectBrush = gcnew SolidBrush(Color::Red); // Brocha para el rectángulo
+		SolidBrush^ circleBrush = gcnew SolidBrush(Color::Green); // Brocha para el rectángulo
 
 		// Parámetros de la onda
 		double amplitude = 50;
@@ -91,17 +104,41 @@ namespace ProyectoPoo20261 {
 		}
 
 		// Dibuja el rectángulo en movimiento siguiendo la onda cosenoidal
-		double yRect = offsetY + amplitude * Math::Cos(frequency * xPosition);
-		g->FillRectangle(rectBrush, xPosition, yRect - 10, 20, 20);
+		double yRect = offsetY + amplitude * Math::Cos(frequency * xPositionRectangle);
+		double yCircle = offsetY + amplitude * Math::Cos(frequency * xPositionCircle);
+
+		g->FillRectangle(rectBrush, xPositionRectangle, yRect - 10, 20, 20);
+
+		g->FillEllipse(circleBrush, xPositionCircle, yCircle - 10, 20, 20);
+
 
 
 	}
 
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-		xPosition += 5; // Incrementa la posición X para mover el rectángulo
-		if (xPosition > this->ClientSize.Width)
-			xPosition = 0; // Repetir movimiento
+		if(!goingFast && xPositionRectangle - xPositionCircle <5 && xPositionRectangle - xPositionCircle > -5) {
+			goingFast = true;
+			xPositionRectangle += 20;
+		}
+		else if (goingFast && xPositionRectangle - xPositionCircle < 150 && xPositionRectangle - xPositionCircle > -150) {
+			xPositionRectangle += 20;
+		}
+		else if(goingFast && xPositionRectangle - xPositionCircle > 150 && xPositionRectangle - xPositionCircle < -150 ){
+			goingFast = false;
+			xPositionRectangle += 5;
+		}
+		else {
+			xPositionRectangle += 5;
+		}
+		if (xPositionRectangle > this->ClientSize.Width)
+			xPositionRectangle = 0; // Repetir movimiento
 		this->Invalidate(); // Refresca la pantalla
 	}
-	};
+	private: System::Void timer2_Tick(System::Object^ sender, System::EventArgs^ e) {
+		xPositionCircle += 8; // Incrementa la posición X para mover el círculo
+		if (xPositionCircle > this->ClientSize.Width)
+			xPositionCircle = 0; // Repetir movimiento
+		this->Invalidate(); // Refresca la pantalla
+	}
+};
 }

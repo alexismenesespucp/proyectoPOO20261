@@ -153,3 +153,110 @@ Object^ Persistance::persistance::LoadDataFromBinary(String^ filePath, Type^ tip
 	}
 	return result;
 }
+
+SqlConnection^ Persistance::persistance::GetConnection() {
+	SqlConnection^ conn = gcnew SqlConnection();
+	String^ database = "login_app";
+	String^ userid = "proyectopoo";
+	String^ password = "12345678";
+	String^ serverName = "localhost\\SQLEXPRESS";
+	conn->ConnectionString = String::Format("Server={0}; Database={1}; User ID={2}; Password={3};", serverName, database, userid, password);
+	conn->Open();
+	return conn;
+}
+
+int Persistance::persistance::addUserSQL(String^ username, String^ password) {
+	int result = -1;
+	SqlConnection^ conn = nullptr;
+	SqlCommand^ cmd = nullptr;
+	try {
+		conn = GetConnection();
+		//cmd = gcnew SqlCommand("INSERT INTO login (usuario, password) VALUES (@user, @password)", conn);
+		String^ procedure = "dbo.add_user";
+		cmd = gcnew SqlCommand(procedure, conn);
+		cmd->CommandType = System::Data::CommandType::StoredProcedure;
+		cmd->Parameters->AddWithValue("@user", username);
+		cmd->Parameters->AddWithValue("@password", password);
+		//result = cmd->ExecuteNonQuery();
+		Object^ objId = cmd->ExecuteScalar();
+		Console::WriteLine("Result of ExecuteScalar: " + (objId != nullptr ? objId->ToString() : "null"));
+		if (objId != nullptr && objId != DBNull::Value) {
+			result = Convert::ToInt32(objId);
+		}
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error adding user to SQL: " + ex->Message);
+	}
+	finally {
+		if (cmd != nullptr) {
+			delete cmd;
+		}
+		if (conn != nullptr) {
+			conn->Close();
+			delete conn;
+		}
+	}
+	return result;
+}
+
+bool Persistance::persistance::usersExistOnDatabase() {
+	bool exists = false;
+	SqlConnection^ conn = nullptr;
+	SqlCommand^ cmd = nullptr;
+	SqlDataReader^ reader = nullptr;
+	try {
+		conn = GetConnection();
+		cmd = gcnew SqlCommand("SELECT COUNT(*) FROM login", conn);
+		int count = (int)cmd->ExecuteScalar();
+		exists = count > 0;
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error checking users in SQL: " + ex->Message);
+	}
+	finally {
+		if (reader != nullptr) {
+			reader->Close();
+		}
+		if (cmd != nullptr) {
+			delete cmd;
+		}
+		if (conn != nullptr) {
+			conn->Close();
+			delete conn;
+		}
+	}
+	return exists;
+}
+
+List<Usuario^> ^ Persistance::persistance::getUsersSQL() {
+	List<Usuario^>^ users = gcnew List<Usuario^>();
+	SqlConnection^ conn = nullptr;
+	SqlCommand^ cmd = nullptr;
+	SqlDataReader^ reader = nullptr;
+	try {
+		conn = GetConnection();
+		cmd = gcnew SqlCommand("SELECT usuario, password FROM login", conn);
+		reader = cmd->ExecuteReader();
+		while (reader->Read()) {
+			String^ username = reader->GetString(0);
+			String^ password = reader->GetString(1);
+			users->Add(gcnew Usuario(username, password));
+		}
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("Error getting users from SQL: " + ex->Message);
+	}
+	finally {
+		if (reader != nullptr) {
+			reader->Close();
+		}
+		if (cmd != nullptr) {
+			delete cmd;
+		}
+		if (conn != nullptr) {
+			conn->Close();
+			delete conn;
+		}
+	}
+	return users;
+}
