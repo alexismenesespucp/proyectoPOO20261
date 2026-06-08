@@ -156,12 +156,19 @@ Object^ Persistance::persistance::LoadDataFromBinary(String^ filePath, Type^ tip
 
 SqlConnection^ Persistance::persistance::GetConnection() {
 	SqlConnection^ conn = gcnew SqlConnection();
-	String^ database = "login_app";
-	String^ userid = "proyectopoo";
-	String^ password = "12345678";
-	String^ serverName = "localhost\\SQLEXPRESS";
-	conn->ConnectionString = String::Format("Server={0}; Database={1}; User ID={2}; Password={3};", serverName, database, userid, password);
-	conn->Open();
+	//String^ database = "login_app";
+	//String^ userid = "proyectopoo";
+	//String^ password = "12345678";
+	//String^ serverName = "localhost\\SQLEXPRESS";
+	
+	conn->ConnectionString = String::Format("Server={0}; Database={1}; User ID={2}; Password={3};", serverName, database, userDB, passwordDB);
+	try{
+		conn->Open();
+	}
+	catch(Exception ^ ex) {
+		Console::WriteLine("Error connecting to: " + conn->ConnectionString);
+		Console::WriteLine("Error connecting to SQL: " + ex->Message);
+	}
 	return conn;
 }
 

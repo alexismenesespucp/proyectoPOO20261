@@ -51,6 +51,7 @@ namespace ProyectoPoo20261 {
 		int xPositionRectangle;
 		bool goingFast;
 	private: System::Windows::Forms::Timer^ timer2;
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
 		   int xPositionCircle;
 
 #pragma region Windows Form Designer generated code
@@ -63,6 +64,8 @@ namespace ProyectoPoo20261 {
 			this->components = (gcnew System::ComponentModel::Container());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->timer2 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// timer1
@@ -74,44 +77,30 @@ namespace ProyectoPoo20261 {
 			this->timer2->Enabled = true;
 			this->timer2->Tick += gcnew System::EventHandler(this, &mainForm::timer2_Tick);
 			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Location = System::Drawing::Point(187, 12);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(1285, 1750);
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &mainForm::pictureBox1_Paint);
+			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1815, 1021);
+			this->Controls->Add(this->pictureBox1);
 			this->Name = L"mainForm";
 			this->Text = L"°°";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &mainForm::mainForm_Paint);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 	private: System::Void mainForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		Graphics^ g = e->Graphics;
-		Pen^ wavePen = gcnew Pen(Color::Blue, 2); // Pen para la onda
-		SolidBrush^ rectBrush = gcnew SolidBrush(Color::Red); // Brocha para el rectángulo
-		SolidBrush^ circleBrush = gcnew SolidBrush(Color::Green); // Brocha para el rectángulo
-
-		// Parámetros de la onda
-		double amplitude = 50;
-		double frequency = 0.05; // Cambiar este valor cambia la longitud de onda
-		double offsetY = 200; // Posición vertical de la onda
-
-		// Dibuja la onda cosenoidal
-		for (int x = 0; x < this->ClientSize.Width; ++x) {
-			double y = offsetY + amplitude * Math::Cos(frequency * x);
-			g->DrawRectangle(Pens::Blue, x, y, 1, 1); // Punto para la onda
-		}
-
-		// Dibuja el rectángulo en movimiento siguiendo la onda cosenoidal
-		double yRect = offsetY + amplitude * Math::Cos(frequency * xPositionRectangle);
-		double yCircle = offsetY + amplitude * Math::Cos(frequency * xPositionCircle);
-
-		g->FillRectangle(rectBrush, xPositionRectangle, yRect - 10, 20, 20);
-
-		g->FillEllipse(circleBrush, xPositionCircle, yCircle - 10, 20, 20);
-
-
 
 	}
 
@@ -130,15 +119,46 @@ namespace ProyectoPoo20261 {
 		else {
 			xPositionRectangle += 5;
 		}
-		if (xPositionRectangle > this->ClientSize.Width)
+		if (xPositionRectangle > this->pictureBox1->Width)
 			xPositionRectangle = 0; // Repetir movimiento
-		this->Invalidate(); // Refresca la pantalla
+		
+		this->pictureBox1->Invalidate();
+		//this->Invalidate(); // Refresca la pantalla
 	}
 	private: System::Void timer2_Tick(System::Object^ sender, System::EventArgs^ e) {
 		xPositionCircle += 8; // Incrementa la posición X para mover el círculo
-		if (xPositionCircle > this->ClientSize.Width)
+		if (xPositionCircle > this->pictureBox1->Width)
 			xPositionCircle = 0; // Repetir movimiento
 		this->Invalidate(); // Refresca la pantalla
 	}
+private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	Graphics^ g = e->Graphics;
+	Pen^ wavePen = gcnew Pen(Color::Blue, 2); // Pen para la onda
+	SolidBrush^ rectBrush = gcnew SolidBrush(Color::Red); // Brocha para el rectángulo
+	SolidBrush^ circleBrush = gcnew SolidBrush(Color::Green); // Brocha para el rectángulo
+
+	// Parámetros de la onda
+	double amplitude = 20;
+	double frequency = 0.05; // Cambiar este valor cambia la longitud de onda
+	double offsetY = 200; // Posición vertical de la onda
+
+	// Dibuja la onda cosenoidal
+	
+	for (int x = 0; x < this->pictureBox1->Width; ++x) {
+		double y = offsetY + amplitude * Math::Cos(frequency * x);
+		g->DrawRectangle(Pens::Blue, x, y, 1, 1); // Punto para la onda
+	}
+
+	// Dibuja el rectángulo en movimiento siguiendo la onda cosenoidal
+	double yRect = offsetY + amplitude * Math::Cos(frequency * xPositionRectangle);
+	double yCircle = offsetY + amplitude * Math::Cos(frequency * xPositionCircle);
+
+	g->FillRectangle(rectBrush, xPositionRectangle, yRect - 10, 20, 20);
+
+	g->FillEllipse(circleBrush, xPositionCircle, yCircle - 10, 20, 20);
+
+
+
+}
 };
 }

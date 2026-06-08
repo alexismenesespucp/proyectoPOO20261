@@ -11,6 +11,10 @@ namespace Persistance {
 	public ref class persistance
 	{
 	public:
+		static String^ database = "poo20261";
+		static String^ userDB = "poousuario";
+		static String^ passwordDB = "4i5jp3tax7ys";
+		static String^ serverName = "poo20261.c1cidnallaxc.us-east-1.rds.amazonaws.com";
 		static bool exists(String^ filePath);
 
 
