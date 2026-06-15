@@ -9,6 +9,7 @@ namespace ProyectoPoo20261 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace Controller;
+	using namespace Threading;
 
 	/// <summary>
 	/// Summary for listarUsuarios
@@ -16,6 +17,7 @@ namespace ProyectoPoo20261 {
 	public ref class listarUsuarios : public System::Windows::Forms::Form
 	{
 	public:
+		Thread^ myThread;
 		listarUsuarios(System::Windows::Forms::Form^ p)
 		{
 			InitializeComponent();
@@ -80,12 +82,13 @@ namespace ProyectoPoo20261 {
 				this->Usuario,
 					this->contrasena
 			});
-			this->dataGridView1->Location = System::Drawing::Point(163, 98);
+			this->dataGridView1->Location = System::Drawing::Point(61, 41);
+			this->dataGridView1->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->ReadOnly = true;
 			this->dataGridView1->RowHeadersWidth = 102;
 			this->dataGridView1->RowTemplate->Height = 40;
-			this->dataGridView1->Size = System::Drawing::Size(1689, 643);
+			this->dataGridView1->Size = System::Drawing::Size(633, 270);
 			this->dataGridView1->TabIndex = 0;
 			this->dataGridView1->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &listarUsuarios::dataGridView1_CellClick);
 			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &listarUsuarios::dataGridView1_CellContentClick);
@@ -113,9 +116,10 @@ namespace ProyectoPoo20261 {
 			// actualizar
 			// 
 			this->actualizar->Enabled = false;
-			this->actualizar->Location = System::Drawing::Point(2034, 150);
+			this->actualizar->Location = System::Drawing::Point(763, 63);
+			this->actualizar->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->actualizar->Name = L"actualizar";
-			this->actualizar->Size = System::Drawing::Size(267, 68);
+			this->actualizar->Size = System::Drawing::Size(100, 29);
 			this->actualizar->TabIndex = 1;
 			this->actualizar->Text = L"Actualizar";
 			this->actualizar->UseVisualStyleBackColor = true;
@@ -123,23 +127,26 @@ namespace ProyectoPoo20261 {
 			// eliminar
 			// 
 			this->eliminar->Enabled = false;
-			this->eliminar->Location = System::Drawing::Point(2034, 275);
+			this->eliminar->Location = System::Drawing::Point(763, 115);
+			this->eliminar->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->eliminar->Name = L"eliminar";
-			this->eliminar->Size = System::Drawing::Size(267, 63);
+			this->eliminar->Size = System::Drawing::Size(100, 26);
 			this->eliminar->TabIndex = 2;
 			this->eliminar->Text = L"Eliminar";
 			this->eliminar->UseVisualStyleBackColor = true;
 			// 
 			// listarUsuarios
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(16, 31);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(2446, 1255);
+			this->ClientSize = System::Drawing::Size(917, 445);
 			this->Controls->Add(this->eliminar);
 			this->Controls->Add(this->actualizar);
 			this->Controls->Add(this->dataGridView1);
+			this->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
 			this->Name = L"listarUsuarios";
 			this->Text = L"listarUsuarios";
+			this->Load += gcnew System::EventHandler(this, &listarUsuarios::listarUsuarios_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->ResumeLayout(false);
 
@@ -185,5 +192,29 @@ private: System::Void dataGridView1_RowValidated(System::Object^ sender, System:
 private: System::Void dataGridView1_CellValidating(System::Object^ sender, System::Windows::Forms::DataGridViewCellValidatingEventArgs^ e) {
 
 }
+
+ void ConsultaDatos() {
+	 Controller::Operations::UpdateUser();
+}
+
+private: System::Void listarUsuarios_Load(System::Object^ sender, System::EventArgs^ e) {
+	myThread = gcnew Thread(gcnew ThreadStart(this, &listarUsuarios::ConsultaBaseDatos));
+	myThread->Start();
+}
+
+	   delegate void MyDelegate();
+
+	   void ConsultaBaseDatos() {
+		   while (true) {
+			   try {
+				   myThread->Sleep(5000);
+				   Invoke(gcnew MyDelegate(this, &listarUsuarios::ConsultaDatos));
+				}
+			   catch (Exception^ ex) {
+				   return;
+			   }
+		   }
+		   
+	   }
 };
 }

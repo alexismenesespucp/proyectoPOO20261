@@ -38,6 +38,13 @@ void Controller::Operations::Initialize() {
 
 }
 
+void Controller::Operations::UpdateUser() {
+	if (Persistance::persistance::usersExistOnDatabase()) {
+		Console::WriteLine("Actualizando usuarios desde la base de datos");
+		usuarios = Persistance::persistance::getUsersSQL();
+	}
+}
+
 Usuario^ Controller::Operations::ReadUser(String^ user) {
 	for(int i = 0; i < usuarios->Count; i++) {
 		if (usuarios[i]->Nombre == user) {

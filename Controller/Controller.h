@@ -14,10 +14,12 @@ namespace Controller {
 		public:
 			static List<Usuario^>^ usuarios = gcnew List<Usuario^>();
 			static void Initialize();
+			static void UpdateUser();
 			static Usuario^ ReadUser(String^ user);
 			static Usuario^ CreateUser(String^ username, String^ password);
 			static Usuario^ UpdateUser(String^ username, String^ newusername, String^ password);
 			static Usuario^ DeleteUser(String^ username);
+			
 			
 	};
 }
