@@ -19,7 +19,8 @@ namespace Controller {
 			static Usuario^ CreateUser(String^ username, String^ password);
 			static Usuario^ UpdateUser(String^ username, String^ newusername, String^ password);
 			static Usuario^ DeleteUser(String^ username);
-			
+			static bool deleteUserSQL(int id);
+			static bool updateUserSQL(int id, String^ username, String^ password);
 			
 	};
 }

@@ -8,6 +8,7 @@ namespace ProyectoPoo20261 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Threading;
 
 	/// <summary>
 	/// Summary for mainForm
@@ -15,15 +16,27 @@ namespace ProyectoPoo20261 {
 	public ref class mainForm : public System::Windows::Forms::Form
 	{
 	public:
+		Thread^ bolaVerde;
+		Thread^ cuadradoRojo;
 		mainForm(void)
 		{
 			InitializeComponent();
 			this->DoubleBuffered = true; // Evita el parpadeo en la animación
 			xPositionRectangle = 25;
 			xPositionCircle = 0;
-			timer1->Interval = 100;
-			timer1->Enabled = true;
+			//timer1->Interval = 100;
+			timer1->Enabled = false;
+			timer2->Enabled = false;
 			goingFast = false;
+
+			bolaVerde = gcnew Thread(gcnew ThreadStart(this, &mainForm::MoverBolaVerde));
+			bolaVerde->IsBackground = true;
+			bolaVerde->Start();
+
+			cuadradoRojo = gcnew Thread(gcnew ThreadStart(this, &mainForm::MoverCuadradoRojo));
+			cuadradoRojo->IsBackground = true;
+			cuadradoRojo->Start();
+
 			//
 			//TODO: Add the constructor code here
 			//
@@ -105,31 +118,31 @@ namespace ProyectoPoo20261 {
 	}
 
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-		if(!goingFast && xPositionRectangle - xPositionCircle <5 && xPositionRectangle - xPositionCircle > -5) {
-			goingFast = true;
-			xPositionRectangle += 20;
-		}
-		else if (goingFast && xPositionRectangle - xPositionCircle < 150 && xPositionRectangle - xPositionCircle > -150) {
-			xPositionRectangle += 20;
-		}
-		else if(goingFast && xPositionRectangle - xPositionCircle > 150 && xPositionRectangle - xPositionCircle < -150 ){
-			goingFast = false;
-			xPositionRectangle += 5;
-		}
-		else {
-			xPositionRectangle += 5;
-		}
-		if (xPositionRectangle > this->pictureBox1->Width)
-			xPositionRectangle = 0; // Repetir movimiento
-		
-		this->pictureBox1->Invalidate();
+		//if(!goingFast && xPositionRectangle - xPositionCircle <5 && xPositionRectangle - xPositionCircle > -5) {
+		//	goingFast = true;
+		//	xPositionRectangle += 20;
+		//}
+		//else if (goingFast && xPositionRectangle - xPositionCircle < 150 && xPositionRectangle - xPositionCircle > -150) {
+		//	xPositionRectangle += 20;
+		//}
+		//else if(goingFast && xPositionRectangle - xPositionCircle > 150 && xPositionRectangle - xPositionCircle < -150 ){
+		//	goingFast = false;
+		//	xPositionRectangle += 5;
+		//}
+		//else {
+		//	xPositionRectangle += 5;
+		//}
+		//if (xPositionRectangle > this->pictureBox1->Width)
+		//	xPositionRectangle = 0; // Repetir movimiento
+		//
+		//this->pictureBox1->Invalidate();
 		//this->Invalidate(); // Refresca la pantalla
 	}
 	private: System::Void timer2_Tick(System::Object^ sender, System::EventArgs^ e) {
-		xPositionCircle += 8; // Incrementa la posición X para mover el círculo
-		if (xPositionCircle > this->pictureBox1->Width)
-			xPositionCircle = 0; // Repetir movimiento
-		this->Invalidate(); // Refresca la pantalla
+		//xPositionCircle += 8; // Incrementa la posición X para mover el círculo
+		//if (xPositionCircle > this->pictureBox1->Width)
+		//	xPositionCircle = 0; // Repetir movimiento
+		//this->Invalidate(); // Refresca la pantalla
 	}
 private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 	Graphics^ g = e->Graphics;
@@ -160,5 +173,63 @@ private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows:
 
 
 }
+
+	   delegate void moviendoBola();
+
+	   public: System::Void calculosBolaVerde() {
+		   xPositionCircle += 8; // Incrementa la posición X para mover el círculo
+		   if (xPositionCircle > this->pictureBox1->Width)
+			   xPositionCircle = 0; // Repetir movimiento
+		   this->pictureBox1->Invalidate(); // Refresca la pantalla
+	   }
+
+	public: System::Void MoverBolaVerde() {
+		while (true) {
+			try {
+				bolaVerde->Sleep(100);
+				Invoke(gcnew moviendoBola(this, &mainForm::calculosBolaVerde));
+			}
+			catch (Exception^ ex) {
+				Console::WriteLine("The excepción es " + ex->Message);
+				return;
+			}
+		}
+	}
+
+		  delegate void moviendoCuadrado();
+
+		  public: System::Void calculosCuadradoRojo() {
+			  if(!goingFast && xPositionRectangle - xPositionCircle <5 && xPositionRectangle - xPositionCircle > -5) {
+  			goingFast = true;
+  			xPositionRectangle += 20;
+		  }
+		  else if (goingFast && xPositionRectangle - xPositionCircle < 150 && xPositionRectangle - xPositionCircle > -150) {
+  			xPositionRectangle += 20;
+		  }
+		  else if(goingFast && xPositionRectangle - xPositionCircle > 150 && xPositionRectangle - xPositionCircle < -150 ){
+  			goingFast = false;
+  			xPositionRectangle += 5;
+		  }
+		  else {
+  			xPositionRectangle += 5;
+		  }
+		  if (xPositionRectangle > this->pictureBox1->Width)
+  			xPositionRectangle = 0; // Repetir movimiento
+  
+		  this->pictureBox1->Invalidate();
+		  }
+
+	public: System::Void MoverCuadradoRojo() {
+		  while (true) {
+			  try {
+				  cuadradoRojo->Sleep(100);
+				  Invoke(gcnew moviendoCuadrado(this, &mainForm::calculosCuadradoRojo));
+			  }
+			  catch (Exception^ ex) {
+				  Console::WriteLine("The excepción es " + ex->Message);
+			  }
+		  }
+		  
+	 }
 };
 }

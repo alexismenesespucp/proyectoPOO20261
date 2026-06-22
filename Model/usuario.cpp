@@ -16,6 +16,12 @@ Model::Usuario::Usuario(String^ nombre, String^ token) {
 	this->veriticationToken = token;
 }
 
+Model::Usuario::Usuario(int id, String^ nombre, String^ token) {
+	this->id = id;
+	this->Nombre = nombre->Trim();
+	this->veriticationToken = token;
+}
+
 bool Model::Usuario::autentificar(String^ contrasena) {
 	this->Contrasena = contrasena;
 	if(this->veriticationToken == Model::Utils::GetMD5Hash(this->Nombre + this->Contrasena)) {

@@ -47,10 +47,18 @@ namespace ProyectoPoo20261 {
 
 	private: System::Windows::Forms::Form^ FormularioLogin;
 	private: System::Windows::Forms::DataGridView^ dataGridView1;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Usuario;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ contrasena;
+
+
 	private: System::Windows::Forms::Button^ actualizar;
 	private: System::Windows::Forms::Button^ eliminar;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ id;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Usuario;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ contrasena;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::TextBox^ textBox1;
+
+
+
 
 
 	private:
@@ -67,10 +75,13 @@ namespace ProyectoPoo20261 {
 		void InitializeComponent(void)
 		{
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->id = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Usuario = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->contrasena = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->actualizar = (gcnew System::Windows::Forms::Button());
 			this->eliminar = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -78,12 +89,12 @@ namespace ProyectoPoo20261 {
 			// 
 			this->dataGridView1->AllowUserToAddRows = false;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {
-				this->Usuario,
+			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
+				this->id, this->Usuario,
 					this->contrasena
 			});
 			this->dataGridView1->Location = System::Drawing::Point(61, 41);
-			this->dataGridView1->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
+			this->dataGridView1->Margin = System::Windows::Forms::Padding(1);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->ReadOnly = true;
 			this->dataGridView1->RowHeadersWidth = 102;
@@ -96,6 +107,15 @@ namespace ProyectoPoo20261 {
 			this->dataGridView1->RowEnter += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &listarUsuarios::dataGridView1_RowEnter);
 			this->dataGridView1->RowValidated += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &listarUsuarios::dataGridView1_RowValidated);
 			this->dataGridView1->Enter += gcnew System::EventHandler(this, &listarUsuarios::dataGridView1_Enter);
+			// 
+			// id
+			// 
+			this->id->FillWeight = 50;
+			this->id->HeaderText = L"id";
+			this->id->Name = L"id";
+			this->id->ReadOnly = true;
+			this->id->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->id->Width = 50;
 			// 
 			// Usuario
 			// 
@@ -117,45 +137,68 @@ namespace ProyectoPoo20261 {
 			// 
 			this->actualizar->Enabled = false;
 			this->actualizar->Location = System::Drawing::Point(763, 63);
-			this->actualizar->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
+			this->actualizar->Margin = System::Windows::Forms::Padding(1);
 			this->actualizar->Name = L"actualizar";
 			this->actualizar->Size = System::Drawing::Size(100, 29);
 			this->actualizar->TabIndex = 1;
 			this->actualizar->Text = L"Actualizar";
 			this->actualizar->UseVisualStyleBackColor = true;
+			this->actualizar->Click += gcnew System::EventHandler(this, &listarUsuarios::actualizar_Click);
 			// 
 			// eliminar
 			// 
 			this->eliminar->Enabled = false;
 			this->eliminar->Location = System::Drawing::Point(763, 115);
-			this->eliminar->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
+			this->eliminar->Margin = System::Windows::Forms::Padding(1);
 			this->eliminar->Name = L"eliminar";
 			this->eliminar->Size = System::Drawing::Size(100, 26);
 			this->eliminar->TabIndex = 2;
 			this->eliminar->Text = L"Eliminar";
 			this->eliminar->UseVisualStyleBackColor = true;
+			this->eliminar->Click += gcnew System::EventHandler(this, &listarUsuarios::eliminar_Click);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(758, 176);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(64, 13);
+			this->label1->TabIndex = 3;
+			this->label1->Text = L"Contraseña:";
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(759, 201);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(79, 20);
+			this->textBox1->TabIndex = 4;
+			this->textBox1->UseSystemPasswordChar = true;
 			// 
 			// listarUsuarios
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(917, 445);
+			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->eliminar);
 			this->Controls->Add(this->actualizar);
 			this->Controls->Add(this->dataGridView1);
-			this->Margin = System::Windows::Forms::Padding(1, 1, 1, 1);
+			this->Margin = System::Windows::Forms::Padding(1);
 			this->Name = L"listarUsuarios";
 			this->Text = L"listarUsuarios";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &listarUsuarios::listarUsuarios_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &listarUsuarios::listarUsuarios_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 
 		void LoadData() {
 			dataGridView1->Rows->Clear();
 			for (int i = 0; i < Controller::Operations::usuarios->Count; i++) {
-				dataGridView1->Rows->Add(Controller::Operations::usuarios[i]->Nombre, Controller::Operations::usuarios[i]->veriticationToken);
+				dataGridView1->Rows->Add(Controller::Operations::usuarios[i]->id,Controller::Operations::usuarios[i]->Nombre, Controller::Operations::usuarios[i]->veriticationToken);
 			}
 		}
 #pragma endregion
@@ -195,6 +238,7 @@ private: System::Void dataGridView1_CellValidating(System::Object^ sender, Syste
 
  void ConsultaDatos() {
 	 Controller::Operations::UpdateUser();
+	 LoadData();
 }
 
 private: System::Void listarUsuarios_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -207,7 +251,7 @@ private: System::Void listarUsuarios_Load(System::Object^ sender, System::EventA
 	   void ConsultaBaseDatos() {
 		   while (true) {
 			   try {
-				   myThread->Sleep(5000);
+				   myThread->Sleep(2000);
 				   Invoke(gcnew MyDelegate(this, &listarUsuarios::ConsultaDatos));
 				}
 			   catch (Exception^ ex) {
@@ -216,5 +260,19 @@ private: System::Void listarUsuarios_Load(System::Object^ sender, System::EventA
 		   }
 		   
 	   }
+private: System::Void eliminar_Click(System::Object^ sender, System::EventArgs^ e) {
+	int id = Int32::Parse(dataGridView1->CurrentRow->Cells[0]->Value->ToString());
+	Controller::Operations::deleteUserSQL(id);
+	Console::WriteLine("Eliminando el usuario: " + id);
+}
+private: System::Void listarUsuarios_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
+	FormularioLogin->Show();
+}
+private: System::Void actualizar_Click(System::Object^ sender, System::EventArgs^ e) {
+	int id = Int32::Parse(dataGridView1->CurrentRow->Cells[0]->Value->ToString());
+	String^ username = dataGridView1->CurrentRow->Cells[1]->Value->ToString();
+	String^ password = textBox1->Text->Trim();
+	Controller::Operations::updateUserSQL(id, username, password);
+}
 };
 }

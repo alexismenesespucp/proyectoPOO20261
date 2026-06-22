@@ -235,6 +235,62 @@ bool Persistance::persistance::usersExistOnDatabase() {
 	return exists;
 }
 
+bool Persistance::persistance::deleteUserSQL(int id) {
+	int result = -1;
+	SqlConnection^ conn = nullptr;
+	SqlCommand^ cmd = nullptr;
+	try {
+		conn = GetConnection();
+		String^ procedure = "dbo.delete_user";
+		cmd = gcnew SqlCommand(procedure, conn);
+		cmd->CommandType = System::Data::CommandType::StoredProcedure;
+		cmd->Parameters->AddWithValue("@user", id);
+		int resultado = Convert::ToInt32(cmd->ExecuteScalar());
+		if (resultado == 1) {
+			Console::WriteLine("Se eliminó el usuario correctamente");
+			return true;
+		}
+		else {
+			Console::WriteLine("No se eliminó el usuario");
+		}
+	}
+	catch(Exception ^ ex) {
+		Console::WriteLine("No se pudo eliminar el usuario " + ex->Message);
+		return false;
+	}
+	
+	return true;
+}
+
+bool Persistance::persistance::updateUserSQL(int id, String^ password) {
+	int result = -1;
+	SqlConnection^ conn = nullptr;
+	SqlCommand^ cmd = nullptr;
+	try {
+		conn = GetConnection();
+		String^ procedure = "dbo.update_user";
+		cmd = gcnew SqlCommand(procedure, conn);
+		cmd->CommandType = System::Data::CommandType::StoredProcedure;
+		cmd->Parameters->AddWithValue("@user", id);
+		cmd->Parameters->AddWithValue("@NewPassword", password);
+
+		int resultado = Convert::ToInt32(cmd->ExecuteScalar());
+		if (resultado == 1) {
+			Console::WriteLine("Se eliminó el usuario correctamente");
+			return true;
+		}
+		else {
+			Console::WriteLine("No se eliminó el usuario");
+		}
+	}
+	catch (Exception^ ex) {
+		Console::WriteLine("No se pudo eliminar el usuario " + ex->Message);
+		return false;
+	}
+
+	return true;
+}
+
 List<Usuario^> ^ Persistance::persistance::getUsersSQL() {
 	List<Usuario^>^ users = gcnew List<Usuario^>();
 	SqlConnection^ conn = nullptr;
@@ -242,12 +298,13 @@ List<Usuario^> ^ Persistance::persistance::getUsersSQL() {
 	SqlDataReader^ reader = nullptr;
 	try {
 		conn = GetConnection();
-		cmd = gcnew SqlCommand("SELECT usuario, password FROM login", conn);
+		cmd = gcnew SqlCommand("SELECT id, usuario, password FROM login", conn);
 		reader = cmd->ExecuteReader();
 		while (reader->Read()) {
-			String^ username = reader->GetString(0);
-			String^ password = reader->GetString(1);
-			users->Add(gcnew Usuario(username, password));
+			int id = reader->GetInt32(0);
+			String^ username = reader->GetString(1);
+			String^ password = reader->GetString(2);
+			users->Add(gcnew Usuario(id, username, password));
 		}
 	}
 	catch (Exception^ ex) {

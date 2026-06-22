@@ -32,6 +32,7 @@ namespace Persistance {
 		static int addUserSQL(String^ username, String^ password);
 		static bool usersExistOnDatabase();
 		static List<Usuario^>^ getUsersSQL();
-
+		static bool deleteUserSQL(int id);
+		static bool updateUserSQL(int id, String^ password);
 	};
 }

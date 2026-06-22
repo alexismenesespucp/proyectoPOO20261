@@ -31,6 +31,10 @@ void Controller::Operations::Initialize() {
 
 	if (Persistance::persistance::usersExistOnDatabase()) {
 		usuarios = Persistance::persistance::getUsersSQL();
+		for (int i = 0; i < usuarios->Count; i++) {
+			Console::WriteLine("El usuarios es: " + usuarios[i]->Nombre);
+
+		}
 	}
 	else {
 		Persistance::persistance::addUserSQL("admin", "c93ccd78b2076528346216b3b2f701e6");
@@ -47,7 +51,8 @@ void Controller::Operations::UpdateUser() {
 
 Usuario^ Controller::Operations::ReadUser(String^ user) {
 	for(int i = 0; i < usuarios->Count; i++) {
-		if (usuarios[i]->Nombre == user) {
+		Console::WriteLine("El usuario es: -" + usuarios[i]->Nombre->Trim() + "-" + user + "-");
+		if (usuarios[i]->Nombre->Trim() == user) {
 			return usuarios[i];
 		}
 	}
@@ -84,4 +89,12 @@ Usuario^ Controller::Operations::DeleteUser(String^ username) {
 		}
 	}
 	return nullptr;
+}
+
+bool Controller::Operations::deleteUserSQL(int id) {
+	return Persistance::persistance::deleteUserSQL(id);
+}
+
+bool Controller::Operations::updateUserSQL(int id, String^ username, String^ password) {
+	return Persistance::persistance::updateUserSQL(id, Utils::GetMD5Hash(username + password));
 }

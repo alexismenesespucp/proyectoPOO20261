@@ -46,3 +46,4 @@ ipch/
 *.exe
 *.dll
 *.lib
+*.env
