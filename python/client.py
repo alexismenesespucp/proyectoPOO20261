@@ -2,10 +2,8 @@ import os
 import socket
 import threading
 import sys
-from dotenv import load_dotenv
 
 # 1. Cargar configuración del .env
-load_dotenv()
 HOST = "8.tcp.ngrok.io"
 PORT_ENV = 26408
 
